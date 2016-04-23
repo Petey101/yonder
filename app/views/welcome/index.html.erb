@@ -6,18 +6,17 @@
 <div class ="row">
   <div class ="col-lg-6 col-lg-offset-3 text-center">
     <div id="water">
-    <%= button_to "Find Water Sources", 'water_data#index', method: :get%>
-  </div>
+    <%= button_to "Find Water Sources", 'water_data#index', method: :get, class: "btn btn-primary btn-lg"%>
     <%= image_tag("water_icon.jpg", class: "icon") %>
+    </div>
   </div>
 </div>
 <div class = "row weather_row">
   <div class ="col-lg-6 col-lg-offset-3 text-center">
     <div id="weather">
-    <%= button_to "Find Weather", 'weather_data#index', method: :get %>
-    </div>
-    <%= image_tag("weather.png", class: "icon") %>
+    <%= button_to "Find Weather", 'weather_data#index', method: :get, class: "btn btn-primary btn-lg" %>
     <%= image_tag("weather.png", id: "weather_icon") %>
+    </div>
   </div>
 
 </div>
