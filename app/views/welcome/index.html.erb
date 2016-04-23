@@ -129,7 +129,7 @@
       return Value * Math.PI / 180;
     }
 
-    var showDirection = "Go " + getDirection(endpoint,startpoint) + " " + calcDistanceBetween(endpoint,startpoint) + " miles to the " + response[0].water_source + ".";
+    var showDirection = "The nearest " + response[0].water_source + " is " + calcDistanceBetween(endpoint,startpoint) + " miles away in the " + getDirection(endpoint,startpoint) + " direction.";
 
     $(".data-div").html(showDirection);
     // $(".data-div2").html(calcDistanceBetween(endpoint,startpoint))
