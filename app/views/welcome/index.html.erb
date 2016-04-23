@@ -18,7 +18,13 @@
     <%= image_tag("weather.png", id: "weather_icon") %>
     </div>
   </div>
-
+</div>
+<div class = "row">
+  <div class ="col-lg-6 col-lg-offset-3 text-center">
+	<div id="alerts">
+	<%= button_to "Alerts", 'weather_data#index', method: :get%>
+	</div>
+  </div>
 </div>
 
 <div class="col-lg-6 col-lg-offset-3 text-center data-div"></div>
@@ -29,6 +35,8 @@
           navigator.geolocation.getCurrentPosition(showPosition);
       	} else if(type == "weather"){
  		  navigator.geolocation.getCurrentPosition(showWeather);
+ 		} else if(type == "alerts"){
+ 		  navigator.geolocation.getCurrentPosition(getAlerts);
  		}
       } else {
           x.innerHTML = "Geolocation is not supported by this browser.";
@@ -61,17 +69,22 @@
         					"<p>The current temperature is " + response.current_observation.temperature_string + ".</p>" +
         					"<p>The wind is blowing " + response.current_observation.wind_dir + " at " + response.current_observation.wind_kph + " KPH, gusting up to " + response.current_observation.wind_gust_kph + " KPH." );
       });
-     $.ajax({
-        method: "GET",
-        dataType: "json",
-        url: "http://api.wunderground.com/api/80d49bda7b9399e7/conditio/q/" + position.coords.latitude + "," + position.coords.longitude + ".json"
-      }).done(function(response){
-        console.log(response);
-        $('.data-div').html("<p>The weather is " + response.current_observation.weather + ".</p>" +
-        					"<p>The current temperature is " + response.current_observation.temperature_string + ".</p>" +
-        					"<p>The wind is blowing " + response.current_observation.wind_dir + " at " + response.current_observation.wind_kph + " KPH, gusting up to " + response.current_observation.wind_gust_kph + " KPH." );
-      });
   }
+
+	function getAlerts(position) {
+		
+	 var getUrl = "http://api.wunderground.com/api/80d49bda7b9399e7/alerts/q/" + position.coords.latitude + "," + position.coords.longitude + ".json";
+	 $.ajax({
+	    method: "GET",
+	    dataType: "json",
+	    url: getUrl 
+	  }).done(function(response){
+	    console.log(response);
+	    $('.data-div').html("<h4>" + response.alerts[0].message + "</h4>" + 
+	    					"<h4>This event is expected to end at " + response.alerts[0].expires + ".</h4>"	);
+	  });
+	}
+
   function getInfo(response) {
     var endpoint = {
      lat: response[0].lat_deg,
