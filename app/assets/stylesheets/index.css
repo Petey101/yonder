@@ -1,0 +1,18 @@
+.icon {
+  height: 50px;
+  width: 50px;
+  display: inline-block;
+}
+
+form {
+  display: inline-block;
+}
+
+.weather_row {
+  margin-top: 2em;
+}
+
+h1 {
+  font-size: 7em;
+  font-family: 'Poiret One', cursive;
+}
