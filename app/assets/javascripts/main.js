@@ -1,17 +1,33 @@
 $( document).ready(function(){
 
-	$('.button_to').on('click',function(event){
+	$('#water .button_to').on('click',function(event){
 		event.preventDefault();
 
 		$.ajax({
       	method: "GET",
         dataType: "json",
-      	url: getLocation()
+      	url: getLocation("water")
     	}).done(function(response){
         console.log(response)
     		$('.data-div').html(response);
     	})
 	})
+
+  $('#weather .button_to').on('click',function(event){
+    event.preventDefault();
+
+    $.ajax({
+        method: "GET",
+        dataType: "json",
+        url: getLocation("weather")
+      }).done(function(response){
+        console.log(response)
+        $('.data-div').html(response);
+      })
+  })
+
+
+
 
 //   var x = document.getElementById("demo");
 //   function getLocation() {
