@@ -7,4 +7,28 @@ This is the Welcome page
 
 
 <div class="data-div">
+ <script>
+   function getLocation() {
+      if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(showPosition);
+      } else {
+          x.innerHTML = "Geolocation is not supported by this browser.";
+      }
+  }
+  function showPosition(position) {
+     var getUrl = "https://data.waterpointdata.org/resource/gihr-buz6.json?$where=within_circle(location," + position.coords.latitude + "," + position.coords.longitude + ",1000000)"
+     console.log(getUrl)
+     $.ajax({
+        method: "GET",
+        dataType: "json",
+        url: getUrl
+      }).done(function(response){
+        console.log(response)
+        $('.data-div').html(response);
+      })
+  }
+</script>
 </div>
+
+
+
