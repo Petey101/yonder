@@ -12,7 +12,7 @@ This is the Welcome page
       	if (type == "water"){
           navigator.geolocation.getCurrentPosition(showPosition);
       	} else if(type == "weather"){
- 		  navigator.geolocation.getCurrentPosition(showWeather)
+ 		  navigator.geolocation.getCurrentPosition(showWeather);
  		}
       } else {
           x.innerHTML = "Geolocation is not supported by this browser.";
@@ -21,43 +21,41 @@ This is the Welcome page
 
   function showPosition(position) {
 
-     var getUrl = "https://data.waterpointdata.org/resource/gihr-buz6.json?$where=within_circle(location, 36.97, 70.15, 1000)"
+     var getUrl = "https://data.waterpointdata.org/resource/gihr-buz6.json?$where=within_circle(location, 36.97, 70.15, 1000)";
      $.ajax({
         method: "GET",
         dataType: "json",
         url: getUrl 
       }).done(function(response){
-        console.log(response)
-        getInfo(response)
-      })
+        console.log(response);
+        getInfo(response);
+      });
   }
 
   function showWeather(position) {
   	
-     var getUrl = "http://api.wunderground.com/api/80d49bda7b9399e7/conditions/q/" + position.coords.latitude + "," + position.coords.longitude + ".json"
-     console.log(getUrl)
+     var getUrl = "http://api.wunderground.com/api/80d49bda7b9399e7/conditions/q/" + position.coords.latitude + "," + position.coords.longitude + ".json";
      $.ajax({
         method: "GET",
         dataType: "json",
         url: getUrl 
       }).done(function(response){
-        console.log(response)
-        debugger
+        console.log(response);
         $('.data-div').html("<p>The weather is " + response.current_observation.weather + ".</p>" + 
         					"<p>The current temperature is " + response.current_observation.temperature_string + ".</p>" + 
         					"<p>The wind is blowing " + response.current_observation.wind_dir + " at " + response.current_observation.wind_kph + " KPH, gusting up to " + response.current_observation.wind_gust_kph + " KPH." );
-      })
-
+      });
+  }
   function getInfo(response) {
     var endpoint = {
      lat: response[0].lat_deg,
      lon: response[0].lon_deg
-    }
+    };
 
     var startpoint = {
      lat: 36.97,
      lon: 70.15
-    }
+    };
 
     function getDirection(endpoint, startpoint) {
       var x1 = endpoint.lat;
@@ -69,15 +67,15 @@ This is the Welcome page
 
       function getAtan2(y, x) {
           return Math.atan2(y, x);
-      };
+      }
 
       var compassReading = radians * (180 / Math.PI);
 
       var coordNames = ["N", "NE", "E", "SE", "S", "SW", "W", "NW", "N"];
       var coordIndex = Math.round(compassReading / 45);
       if (coordIndex < 0) {
-          coordIndex = coordIndex + 8
-      };
+          coordIndex = coordIndex + 8;
+      }
 
       return coordNames[coordIndex]; // returns the coordinate value
     }
@@ -105,9 +103,9 @@ This is the Welcome page
       return Value * Math.PI / 180;
     }
 
-    var showDirection = "Go " + getDirection(endpoint,startpoint) + " " + calcDistanceBetween(endpoint,startpoint) + " miles to the " + response[0].water_source + "."
+    var showDirection = "Go " + getDirection(endpoint,startpoint) + " " + calcDistanceBetween(endpoint,startpoint) + " miles to the " + response[0].water_source + ".";
 
-    $(".data-div").html(showDirection)
+    $(".data-div").html(showDirection);
     // $(".data-div2").html(calcDistanceBetween(endpoint,startpoint))
   }
 </script>
@@ -119,5 +117,3 @@ This is the Welcome page
 <div class="data-div2">
 
 </div>
-
-
