@@ -16,3 +16,8 @@ h1 {
   font-size: 7em;
   font-family: 'Poiret One', cursive;
 }
+
+#weather_icon {
+  height: 42px;
+  width: 42px;
+}
