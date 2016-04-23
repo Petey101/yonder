@@ -1,10 +1,27 @@
+<div class = "row">
+<div class ="col-lg-6 col-lg-offset-3 text-center">
+  <h1>Yonder</h1>
+</div>
+</div>
+<div class ="row">
+  <div class ="col-lg-6 col-lg-offset-3 text-center">
+    <div id="water">
+    <%= button_to "Find Water Sources", 'water_data#index', method: :get, class: "btn btn-primary btn-lg"%>
+    <%= image_tag("water_icon.jpg", class: "icon") %>
+    </div>
+  </div>
+</div>
+<div class = "row weather_row">
+  <div class ="col-lg-6 col-lg-offset-3 text-center">
+    <div id="weather">
+    <%= button_to "Find Weather", 'weather_data#index', method: :get, class: "btn btn-primary btn-lg" %>
+    <%= image_tag("weather.png", id: "weather_icon") %>
+    </div>
+  </div>
 
-<div id="water"><%= button_to "Water", 'water_data#index', method: :get%></div>
-<div id="weather"><%= button_to "Weather", 'weather_data#index', method: :get%></div>
+</div>
 
-
-
-<div class="data-div">
+<div class="col-lg-6 col-lg-offset-3 text-center data-div"></div>
  <script>
    function getLocation(type) {
       if (navigator.geolocation) {
@@ -24,7 +41,7 @@
      $.ajax({
         method: "GET",
         dataType: "json",
-        url: getUrl 
+        url: getUrl
       }).done(function(response){
         console.log(response);
         getInfo(response);
@@ -32,16 +49,16 @@
   }
 
   function showWeather(position) {
-  	
+
      var getUrl = "http://api.wunderground.com/api/80d49bda7b9399e7/conditions/q/" + position.coords.latitude + "," + position.coords.longitude + ".json";
      $.ajax({
         method: "GET",
         dataType: "json",
-        url: getUrl 
+        url: getUrl
       }).done(function(response){
         console.log(response);
-        $('.data-div').html("<p>The weather is " + response.current_observation.weather + ".</p>" + 
-        					"<p>The current temperature is " + response.current_observation.temperature_string + ".</p>" + 
+        $('.data-div').html("<p>The weather is " + response.current_observation.weather + ".</p>" +
+        					"<p>The current temperature is " + response.current_observation.temperature_string + ".</p>" +
         					"<p>The wind is blowing " + response.current_observation.wind_dir + " at " + response.current_observation.wind_kph + " KPH, gusting up to " + response.current_observation.wind_gust_kph + " KPH." );
       });
      $.ajax({
@@ -50,8 +67,8 @@
         url: "http://api.wunderground.com/api/80d49bda7b9399e7/conditio/q/" + position.coords.latitude + "," + position.coords.longitude + ".json"
       }).done(function(response){
         console.log(response);
-        $('.data-div').html("<p>The weather is " + response.current_observation.weather + ".</p>" + 
-        					"<p>The current temperature is " + response.current_observation.temperature_string + ".</p>" + 
+        $('.data-div').html("<p>The weather is " + response.current_observation.weather + ".</p>" +
+        					"<p>The current temperature is " + response.current_observation.temperature_string + ".</p>" +
         					"<p>The wind is blowing " + response.current_observation.wind_dir + " at " + response.current_observation.wind_kph + " KPH, gusting up to " + response.current_observation.wind_gust_kph + " KPH." );
       });
   }
@@ -119,10 +136,7 @@
   }
 </script>
 
-</div>
 
 
 
-<div class="data-div2">
 
-</div>
