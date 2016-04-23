@@ -1,4 +1,3 @@
-This is the Welcome page
 
 <div id="water"><%= button_to "Water", 'water_data#index', method: :get%></div>
 <div id="weather"><%= button_to "Weather", 'weather_data#index', method: :get%></div>
@@ -39,6 +38,16 @@ This is the Welcome page
         method: "GET",
         dataType: "json",
         url: getUrl 
+      }).done(function(response){
+        console.log(response);
+        $('.data-div').html("<p>The weather is " + response.current_observation.weather + ".</p>" + 
+        					"<p>The current temperature is " + response.current_observation.temperature_string + ".</p>" + 
+        					"<p>The wind is blowing " + response.current_observation.wind_dir + " at " + response.current_observation.wind_kph + " KPH, gusting up to " + response.current_observation.wind_gust_kph + " KPH." );
+      });
+     $.ajax({
+        method: "GET",
+        dataType: "json",
+        url: "http://api.wunderground.com/api/80d49bda7b9399e7/conditio/q/" + position.coords.latitude + "," + position.coords.longitude + ".json"
       }).done(function(response){
         console.log(response);
         $('.data-div').html("<p>The weather is " + response.current_observation.weather + ".</p>" + 
