@@ -26,6 +26,19 @@ $( document).ready(function(){
       })
   })
 
+  $('#alerts .button_to').on('click',function(event){
+    event.preventDefault();
+
+    $.ajax({
+        method: "GET",
+        dataType: "json",
+        url: getLocation("alerts")
+      }).done(function(response){
+        console.log(response)
+        $('.data-div').html(response);
+      })
+  })
+
 
 
 
