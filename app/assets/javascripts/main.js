@@ -27,3 +27,4 @@ $( document).ready(function(){
 // }
 
 })
+ // "https://data.waterpointdata.org/resource/gihr-buz6.json?$where=within_circle(location," + position.coords.latitude + "," + position.coords.longitude + ",1000)"
