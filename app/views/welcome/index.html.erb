@@ -18,18 +18,17 @@ This is the Welcome page
           x.innerHTML = "Geolocation is not supported by this browser.";
       }
   }
+
   function showPosition(position) {
-  	
-     var getUrl = "https://data.waterpointdata.org/resource/gihr-buz6.json?$where=within_circle(location," + position.coords.latitude + "," + position.coords.longitude + ",1000000)"
- 	
-     console.log(getUrl)
+
+     var getUrl = "https://data.waterpointdata.org/resource/gihr-buz6.json?$where=within_circle(location, 36.97, 70.15, 1000)"
      $.ajax({
         method: "GET",
         dataType: "json",
         url: getUrl 
       }).done(function(response){
         console.log(response)
-        $('.data-div').html(response);
+        getInfo(response)
       })
   }
 
@@ -48,9 +47,77 @@ This is the Welcome page
         					"<p>The current temperature is " + response.current_observation.temperature_string + ".</p>" + 
         					"<p>The wind is blowing " + response.current_observation.wind_dir + " at " + response.current_observation.wind_kph + " KPH, gusting up to " + response.current_observation.wind_gust_kph + " KPH." );
       })
+
+  function getInfo(response) {
+    var endpoint = {
+     lat: response[0].lat_deg,
+     lon: response[0].lon_deg
+    }
+
+    var startpoint = {
+     lat: 36.97,
+     lon: 70.15
+    }
+
+    function getDirection(endpoint, startpoint) {
+      var x1 = endpoint.lat;
+      var y1 = endpoint.lon;
+      var x2 = startpoint.lat ;
+      var y2 = startpoint.lon ;
+
+      var radians = getAtan2((y1 - y2), (x1 - x2));
+
+      function getAtan2(y, x) {
+          return Math.atan2(y, x);
+      };
+
+      var compassReading = radians * (180 / Math.PI);
+
+      var coordNames = ["N", "NE", "E", "SE", "S", "SW", "W", "NW", "N"];
+      var coordIndex = Math.round(compassReading / 45);
+      if (coordIndex < 0) {
+          coordIndex = coordIndex + 8
+      };
+
+      return coordNames[coordIndex]; // returns the coordinate value
+    }
+
+    function calcDistanceBetween(endpoint, startpoint) {
+      var lat1 = endpoint.lat;
+      var lon1 = endpoint.lon;
+      var lat2 = startpoint.lat ;
+      var lon2 = startpoint.lon ;
+
+     //Radius of the earth in:  1.609344 miles,  6371 km  | var R = (6371 / 1.609344);
+      var R = 3958.7558657440545; // Radius of earth in Miles
+      var dLat = toRad(lat2-lat1);
+      var dLon = toRad(lon2-lon1);
+      var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+              Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+              Math.sin(dLon/2) * Math.sin(dLon/2);
+      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+      var d = R * c;
+      return d.toFixed(2);
+    }
+
+    function toRad(Value) {
+      /** Converts numeric degrees to radians */
+      return Value * Math.PI / 180;
+    }
+
+    var showDirection = "Go " + getDirection(endpoint,startpoint) + " " + calcDistanceBetween(endpoint,startpoint) + " miles to the " + response[0].water_source + "."
+
+    $(".data-div").html(showDirection)
+    // $(".data-div2").html(calcDistanceBetween(endpoint,startpoint))
   }
 </script>
+
 </div>
 
+
+
+<div class="data-div2">
+
+</div>
 
 
