@@ -21,3 +21,8 @@ h1 {
   height: 42px;
   width: 42px;
 }
+
+.data-div {
+  margin-top: 2.5em;
+  font-size: 2.5em;
+}
