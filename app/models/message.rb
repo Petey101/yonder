@@ -40,6 +40,14 @@ class Message < ActiveRecord::Base
     message = "The closest water source is #{distance.round(2)} miles away in the #{direction} direction."
   end
 
+  def self.generate_weather_message(user_lat, user_lon)
+    url = "http://api.wunderground.com/api/80d49bda7b9399e7/conditions/q/#{user_lat},#{user_lon}.json"
+    uri = URI(url)
+    response = Net::HTTP.get(uri)
+    current_observation = JSON.parse(response)["current_observation"]
+    message = "The weather is #{current_observation["weather"]}. The current temperature is #{current_observation["temperature_string"]}. The wind is blowing #{current_observation["wind_dir"]} at #{current_observation["wind_kph"]} KPH, gusting up to #{current_observation["wind_gust_kph"]} KPH."
+  end
+
   def self.get_atan2(y, x)
    Math.atan2(y, x)
   end
