@@ -149,18 +149,11 @@
         lat: source.lat_deg,
         lon: source.lon_deg
       };
-      // var dataMessage = "There is a "
-      // dataMessage += source.water_source + " "
-      // dataMessage += calcDistanceBetween(endpoint, startpoint)
-      // dataMessage += " miles away in the "
-      // dataMessage += getDirection(endpoint, startpoint)
-      // dataMessage += " direction!<br>"
-      // $(".data-div").append(dataMessage)
+
       dataTable += "<tr><td>" + source.water_source + "</td><td>" + getDirection(endpoint, startpoint) + "</td><td>" + calcDistanceBetween(endpoint, startpoint) + "</td></tr>"
             
     })
     dataTable += "</table>"
-    console.log(dataTable)
     $(".data-div").append(dataTable)
 
     // var showDirection = "The nearest " + response[0].water_source + " is " + calcDistanceBetween(endpoint,startpoint) + " miles away in the " + getDirection(endpoint,startpoint) + " direction.";
