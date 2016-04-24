@@ -144,14 +144,21 @@
 
     $(".data-div").html("Here are the closest water sources:<br>")
     var dataTable = "<table><tr><th>Source</th><th>Direction</th><th>Distance</th></tr>"
+    var sorted = []
     response.forEach(function(source){
       var endpoint = {
         lat: source.lat_deg,
         lon: source.lon_deg
       };
-
-      dataTable += "<tr><td>" + source.water_source + "</td><td>" + getDirection(endpoint, startpoint) + "</td><td>" + calcDistanceBetween(endpoint, startpoint) + "</td></tr>"
+      sorted.push({source: source.water_source, direction: getDirection(endpoint, startpoint), distance: calcDistanceBetween(endpoint, startpoint)})
+    })
+    sorted.sort(function(sourceOne, sourceTwo){
+      return sourceOne.distance - sourceTwo.distance
+    })
+    sorted.forEach(function(source){
+      dataTable += "<tr><td>" + source.source + "</td><td>" + source.direction + "</td><td>" + source.distance + "</td></tr>"
             
+      
     })
     dataTable += "</table>"
     $(".data-div").append(dataTable)
