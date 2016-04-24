@@ -37,7 +37,7 @@
 
   function showPosition(position) {
 
-     var getUrl = "https://data.waterpointdata.org/resource/gihr-buz6.json?$where=within_circle(location, 36.97, 70.15, 1000)";
+     var getUrl = "https://data.waterpointdata.org/resource/gihr-buz6.json?$where=within_circle(location, 36.97, 70.15, 5000)";
      $.ajax({
         method: "GET",
         dataType: "json",
@@ -109,8 +109,8 @@
     function calcDistanceBetween(endpoint, startpoint) {
       var lat1 = endpoint.lat;
       var lon1 = endpoint.lon;
-      var lat2 = startpoint.lat ;
-      var lon2 = startpoint.lon ;
+      var lat2 = startpoint.lat;
+      var lon2 = startpoint.lon;
 
      //Radius of the earth in:  1.609344 miles,  6371 km  | var R = (6371 / 1.609344);
       var R = 3958.7558657440545; // Radius of earth in Miles
@@ -129,9 +129,30 @@
       return Value * Math.PI / 180;
     }
 
-    var showDirection = "The nearest " + response[0].water_source + " is " + calcDistanceBetween(endpoint,startpoint) + " miles away in the " + getDirection(endpoint,startpoint) + " direction.";
+    $(".data-div").html("Here are the closest water sources:<br>")
+    var dataTable = "<table><tr><th>Source</th><th>Direction</th><th>Distance</th></tr>"
+    response.forEach(function(source){
+      var endpoint = {
+        lat: source.lat_deg,
+        lon: source.lon_deg
+      };
+      // var dataMessage = "There is a "
+      // dataMessage += source.water_source + " "
+      // dataMessage += calcDistanceBetween(endpoint, startpoint)
+      // dataMessage += " miles away in the "
+      // dataMessage += getDirection(endpoint, startpoint)
+      // dataMessage += " direction!<br>"
+      // $(".data-div").append(dataMessage)
+      dataTable += "<tr><td>" + source.water_source + "</td><td>" + getDirection(endpoint, startpoint) + "</td><td>" + calcDistanceBetween(endpoint, startpoint) + "</td></tr>"
+            
+    })
+    dataTable += "</table>"
+    console.log(dataTable)
+    $(".data-div").append(dataTable)
 
-    $(".data-div").html(showDirection);
+    // var showDirection = "The nearest " + response[0].water_source + " is " + calcDistanceBetween(endpoint,startpoint) + " miles away in the " + getDirection(endpoint,startpoint) + " direction.";
+
+    // $(".data-div").html(showDirection);
     // $(".data-div2").html(calcDistanceBetween(endpoint,startpoint))
   }
 </script>
