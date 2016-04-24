@@ -170,8 +170,10 @@
     $(".show-more").on('click', function(e){
       e.preventDefault();
       if($(".data-div").find("#more-water-container").length > 0){
+        $(".show-more").html("See More Sources")
         $(".data-div").find("#more-water-container").remove()
       } else {
+        $(".show-more").html("Show Less")
         $(".data-div").append(dataTable)
       }
     })
