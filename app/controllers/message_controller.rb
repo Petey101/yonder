@@ -7,8 +7,10 @@ class MessageController < ApplicationController
     if words_arr[0].downcase == "water"
      # "water 90.56 39.23"
       words = Message.generate_water_message(words_arr[1], words_arr[2])
+    elsif words_arr[0].downcase == "weather"
+      words = Message.generate_weather_message(words_arr[1], words_arr[2])
     else
-      words = "Please enter 'water' followed by your latitude and longitude. i.e. 'water 36.97 70.15' Standard SMS rates apply"
+      words = "Please enter 'water' or 'weather' followed by your latitude and longitude. i.e. 'water -2.51 32.69' Standard SMS rates apply"
     end
 
     sms = @client.messages.create(
