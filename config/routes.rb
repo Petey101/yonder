@@ -9,6 +9,9 @@ Rails.application.routes.draw do
   resources :pasture_data
   resources :water_data
   resources :weather_data
+  resources :message
+
+  post 'receive_sms' => 'message#receive_sms'
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
