@@ -4,11 +4,11 @@ class MessageController < ApplicationController
   def receive_sms
     boot_twilio
     words_arr = params["Body"].split(" ")
-    words = "not water"
-    if words_arr[0] == "water"
+    if words_arr[0].downcase == "water"
      # "water 90.56 39.23"
       words = Message.generate_water_message(words_arr[1], words_arr[2])
-
+    else
+      words = "Please enter 'water' followed by your latitude and longitude. i.e. 'water 36.97 70.15' Standard SMS rates apply"
     end
 
     sms = @client.messages.create(
