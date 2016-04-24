@@ -3,10 +3,18 @@ class MessageController < ApplicationController
 
   def receive_sms
     boot_twilio
+    words_arr = params["Body"].split(" ")
+    words = "not water"
+    if words_arr[0] == "water"
+     # "water 90.56 39.23"
+      words = Message.generate_water_message(words_arr[1], words_arr[2])
+
+    end
+
     sms = @client.messages.create(
       from: +16788418305,
       to: params["From"],
-      body: "HI!")
+      body: words)
 
   end
 
