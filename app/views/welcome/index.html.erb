@@ -45,7 +45,7 @@
 
   function showPosition(position) {
 
-     var getUrl = "https://data.waterpointdata.org/resource/gihr-buz6.json?$where=within_circle(location, 36.97, 70.15, 5000)";
+     var getUrl = "https://data.waterpointdata.org/resource/gihr-buz6.json?$where=within_circle(location, -2.513716, 32.699574, 5000)";
      $.ajax({
         method: "GET",
         dataType: "json",
@@ -86,14 +86,10 @@
 	}
 
   function getInfo(response) {
-    var endpoint = {
-     lat: response[0].lat_deg,
-     lon: response[0].lon_deg
-    };
 
     var startpoint = {
-     lat: 36.97,
-     lon: 70.15
+     lat: -2.513716, 
+     lon: 32.699574
     };
 
     function getDirection(endpoint, startpoint) {
@@ -142,19 +138,42 @@
       return Value * Math.PI / 180;
     }
 
-    $(".data-div").html("Here are the closest water sources:<br>")
-    var dataTable = "<table><tr><th>Source</th><th>Direction</th><th>Distance</th></tr>"
+    // $(".data-div").html("Here are the closest water sources:<br>")
+    var dataTable = "<div id='more-water-container'><table><tr><th>Source</th><th>Direction</th><th>Distance</th></tr>"
+    var sortedSources = []
     response.forEach(function(source){
       var endpoint = {
         lat: source.lat_deg,
         lon: source.lon_deg
       };
-
-      dataTable += "<tr><td>" + source.water_source + "</td><td>" + getDirection(endpoint, startpoint) + "</td><td>" + calcDistanceBetween(endpoint, startpoint) + "</td></tr>"
-            
+      sortedSources.push({source: source.water_source, direction: getDirection(endpoint, startpoint), distance: calcDistanceBetween(endpoint, startpoint)})
     })
-    dataTable += "</table>"
-    $(".data-div").append(dataTable)
+    sortedSources.sort(function(sourceOne, sourceTwo){
+      return sourceOne.distance - sourceTwo.distance
+    })
+    sortedSources.forEach(function(source){
+      dataTable += "<tr><td>" + source.source + "</td><td>" + source.direction + "</td><td>" + source.distance + "</td></tr>"
+    })
+    dataTable += "</table></div>"
+    var closestSource = "The closest water source is: "
+    closestSource += sortedSources[0].distance
+    closestSource += " miles away in the "
+    closestSource += sortedSources[0].direction
+    closestSource += " direction.<br>"
+    closestSource += "Source: " + sortedSources[0].source
+    closestSource += "<br><button class='show-more'>See More Sources</button>"
+    $(".data-div").html(closestSource)
+    $(".show-more").on('click', function(e){
+      e.preventDefault();
+      if($(".data-div").find("#more-water-container").length > 0){
+        $(".show-more").html("See More Sources")
+        $(".data-div").find("#more-water-container").remove()
+      } else {
+        $(".show-more").html("Show Less")
+        $(".data-div").append(dataTable)
+      }
+    })
+
 
     // var showDirection = "The nearest " + response[0].water_source + " is " + calcDistanceBetween(endpoint,startpoint) + " miles away in the " + getDirection(endpoint,startpoint) + " direction.";
 
