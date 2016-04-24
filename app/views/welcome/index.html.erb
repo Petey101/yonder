@@ -45,7 +45,7 @@
 
   function showPosition(position) {
 
-     var getUrl = "https://data.waterpointdata.org/resource/gihr-buz6.json?$where=within_circle(location, 36.97, 70.15, 5000)";
+     var getUrl = "https://data.waterpointdata.org/resource/gihr-buz6.json?$where=within_circle(location, -2.513716, 32.699574, 5000)";
      $.ajax({
         method: "GET",
         dataType: "json",
@@ -86,14 +86,10 @@
 	}
 
   function getInfo(response) {
-    var endpoint = {
-     lat: response[0].lat_deg,
-     lon: response[0].lon_deg
-    };
 
     var startpoint = {
-     lat: 36.97,
-     lon: 70.15
+     lat: -2.513716, 
+     lon: 32.699574
     };
 
     function getDirection(endpoint, startpoint) {
