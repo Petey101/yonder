@@ -18,6 +18,13 @@ class MessageController < ApplicationController
       to: params["From"],
       body: words)
 
+    content_type 'text/xml'
+
+    response = Twilio::TwiML::Response.new do |r|
+      r.Message "This is working"
+    end
+
+    response.to_xml
   end
 
   def get_water_string
@@ -30,10 +37,10 @@ class MessageController < ApplicationController
   end
 
   private
-   def boot_twilio
-    account_sid = "AC17942be75d5e9d315c1b7fc261258605"
-    auth_token = "7572027dbfcb8d906abe23eb442364e1"
-    @client = Twilio::REST::Client.new(account_sid, auth_token)
+  def boot_twilio
+    puts Rails.application.secrets.twilio_account_sid
+    puts Rails.application.secrets.twilio_auth_token
+    @client = Twilio::REST::Client.new Rails.application.secrets.twilio_account_sid, Rails.application.secrets.twilio_auth_token
   end
 
 end
@@ -43,10 +50,3 @@ end
 
 
 
-    # content_type 'text/xml'
-
-    # response = Twilio::TwiML::Response.new do |r|
-    #   r.Message "This is working"
-    # end
-
-    # response.to_xml

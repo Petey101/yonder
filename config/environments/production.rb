@@ -76,4 +76,11 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  config.secret_key_base = ENV["SECRET_KEY_BASE"]
+  config.twilio_auth_token = ENV["TWILIO_AUTH_TOKEN"]
+  config.twilio_account_sid = ENV["TWILIO_ACCOUNT_SID"]
+
+  config.middleware.use Rack::TwilioWebhookAuthentication, Rails.application.secrets.twilio_auth_token, '/voice'
+
 end
